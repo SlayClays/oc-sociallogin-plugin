@@ -13,9 +13,13 @@ use Flynsarmy\SocialLogin\Models\Provider;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7;
 use GuzzleHttp\Exception\RequestException;
-use October\Rain\Auth\Models\User;
+// use October\Rain\Auth\Models\User;
+// New RainLab User plugin version
+use RainLab\User\Models\User;
 use Hybridauth\User\Profile;
-use RainLab\User\Models\Settings as UserSettings;
+// use RainLab\User\Models\Settings as UserSettings;
+// New RainLab User plugin version
+use RainLab\User\Models\Setting as UserSettings;
 use System\Models\File;
 
 class UserManager
@@ -62,7 +66,9 @@ class UserManager
 
         if (!$provider) {
             // Does a user with this email exist?
-            $user = Auth::findUserByLogin($user_details->email);
+            // $user = Auth::findUserByLogin($user_details->email);
+            // New RainLab User plugin version
+            $user = Auth::findUserByCredentials(['email' => $user_details->email]);
             // No user with this email exists - create one
             if (!$user) {
                 if (UserSettings::get('allow_registration')) {
@@ -136,9 +142,19 @@ class UserManager
             $email = $user_details->identifier . '@dev.null';
         }
 
+        // $new_user = [
+        //     'name' => $user_details->firstName,
+        //     'surname' => $user_details->lastName,
+        //     'email' => $email,
+        //     'username' => $email,
+        //     'password' => $new_password,
+        //     'password_confirmation' => $new_password,
+        //     'phone' => $user_details->phone,
+        // ];
+        // New RainLab User plugin version
         $new_user = [
-            'name' => $user_details->firstName,
-            'surname' => $user_details->lastName,
+            'first_name' => $user_details->firstName,
+            'last_name' => $user_details->lastName,
             'email' => $email,
             'username' => $email,
             'password' => $new_password,
