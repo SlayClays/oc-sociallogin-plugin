@@ -142,6 +142,11 @@ class Plugin extends PluginBase
 				'alias' => 'Facebook',
 				'description' => 'Log in with Facebook'
 			],
+			'\\Flynsarmy\\SocialLogin\\SocialLoginProviders\\Apple' => [
+                'label' => 'Apple',
+                'alias' => 'Apple',
+                'description' => 'Log in with Apple'
+            ],
 		];
 	}
 }

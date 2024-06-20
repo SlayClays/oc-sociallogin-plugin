@@ -4,7 +4,7 @@
 Route::get('flynsarmy/sociallogin/{provider}', array("as" => "flynsarmy_sociallogin_provider", 'middleware' => ['web'], function($provider_name, $action = "")
 {
     $success_redirect = Input::get('s', '/');
-	$error_redirect = Input::get('f', '/login');
+    $error_redirect = Input::get('f', '/account');
     Session::flash('flynsarmy_sociallogin_successredirect', $success_redirect);
     Session::flash('flynsarmy_sociallogin_errorredirect', $error_redirect);
 
@@ -19,7 +19,7 @@ Route::get('flynsarmy/sociallogin/{provider}', array("as" => "flynsarmy_sociallo
 	return $provider->redirectToProvider();
 }))->where(['provider' => '[A-Z][a-zA-Z ]+']);
 
-Route::get('flynsarmy/sociallogin/{provider}/callback', ['as' => 'flynsarmy_sociallogin_provider_callback', 'middleware' => ['web'], function($provider_name) {
+Route::any('flynsarmy/sociallogin/{provider}/callback', ['as' => 'flynsarmy_sociallogin_provider_callback', 'middleware' => ['web'], function($provider_name) {
     $success_redirect = Session::get('flynsarmy_sociallogin_successredirect', '/');
     $error_redirect = Session::get('flynsarmy_sociallogin_errorredirect', '/login');
 

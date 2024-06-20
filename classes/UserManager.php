@@ -15,6 +15,7 @@ use October\Rain\Auth\Models\User;
 use Hybridauth\User\Profile;
 use RainLab\User\Models\Settings as UserSettings;
 use System\Models\File;
+use Xynergy\Club\Traits\ClubHelper;
 
 class UserManager
 {
@@ -138,9 +139,14 @@ class UserManager
             'password' => $new_password,
             'password_confirmation' => $new_password,
             'phone' => $user_details->phone,
+            // @hack add first_name, last_name field
+            'first_name' => isset($user_details->firstName) ? $user_details->firstName : '',
+            'last_name'  => isset($user_details->lastName) ? $user_details->lastName : '',
         ];
 
         $user = Auth::register($new_user, true);
+        // @hack add default user role
+        ClubHelper::updateUserRoleByClubAdmin($user->id);
         $this->attachAvatar($user, $user_details);
 
         return $this->attachProvider($user, $provider_details);
